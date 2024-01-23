@@ -4,6 +4,13 @@ Hello I made some changes to this text file
 
 ![workflow](https://github.com/STharHtet/sem1/actions/workflows/main.yml/badge.svg)
 
-[![LICENSE](https://img.shields.io/github/license/STharHtet/sem.svg?style=flat-square)](https://github.com/STharHtet/sem/blob/master/LICENSE)
+[![LICENSE](https://img.shields.io/github/license/STharHtet/sem.svg?style=flat-square)](https://github.com/STharHtet/sem1/blob/master/LICENSE)
 
-[![Releases](https://img.shields.io/github/release/STharHtet/sem/all.svg?style=flat-square)](https://github.com/STharHtet/sem/releases)
+[![Releases](https://img.shields.io/github/release/STharHtet/sem1/all.svg?style=flat-square)](https://github.com/STharHtet/sem1/releases)
+
+# Software Engineering Methods
+![GitHub Workflow Status (develop)](https://img.shields.io/github/actions/workflow/status/STharHtet/sem1/main.yml)
+
+
+# Software Engineering Methods
+![GitHub Workflow Status (develop)](https://img.shields.io/github/workflow/status/STharHtet/sem1/main.yml/develop?style=flat-square)
