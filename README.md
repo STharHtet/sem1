@@ -13,6 +13,5 @@ Hello I made some changes to this text file
 * License [![LICENSE](https://img.shields.io/github/license/STharHtet/sem.svg?style=flat-square)](https://github.com/STharHtet/sem1/blob/master/LICENSE)
 * Release [![Releases](https://img.shields.io/github/release/STharHtet/sem1/all.svg?style=flat-square)](https://github.com/STharHtet/sem1/releases)
 
-
 # Software Engineering Methods
 ![GitHub Workflow Status (develop)](https://img.shields.io/github/workflow/status/STharHtet/sem1/main.yml/develop?style=flat-square)
