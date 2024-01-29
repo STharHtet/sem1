@@ -7,6 +7,7 @@ Hello I made some changes to this text file
 good
 lie 
 tie
+testing2
 
 # Software Engineering Methods
 * Master Build Status ![GitHub Workflow Status (master)](https://img.shields.io/github/actions/workflow/status/STharHtet/sem1/main.yml?branch=master)
