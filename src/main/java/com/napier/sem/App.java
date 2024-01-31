@@ -1,9 +1,10 @@
 package com.napier.sem;
 
 import java.sql.*;
+import java.util.ArrayList;
 
-public class App
-{
+
+public class App {
     /**
      * Connection to MySQL database.
      */
@@ -12,39 +13,30 @@ public class App
     /**
      * Connect to the MySQL database.
      */
-    public void connect()
-    {
-        try
-        {
+    public void connect() {
+        try {
             // Load Database driver
             Class.forName("com.mysql.cj.jdbc.Driver");
-        }
-        catch (ClassNotFoundException e)
-        {
+        } catch (ClassNotFoundException e) {
             System.out.println("Could not load SQL driver");
             System.exit(-1);
         }
 
         int retries = 10;
-        for (int i = 0; i < retries; ++i)
-        {
+        for (int i = 0; i < retries; ++i) {
             System.out.println("Connecting to database...");
-            try
-            {
+            try {
                 // Wait a bit for db to start
                 Thread.sleep(30000);
                 // Connect to database
-                con = DriverManager.getConnection("jdbc:mysql://db:3306/employees?useSSL=false", "root", "example");
+                con = DriverManager.getConnection("jdbc:mysql://db:3306/world?useSSL=false", "root", "example");
+//                con = DriverManager.getConnection("jdbc:mysql://localhost/world", "root", "example");
                 System.out.println("Successfully connected");
                 break;
-            }
-            catch (SQLException sqle)
-            {
+            } catch (SQLException sqle) {
                 System.out.println("Failed to connect to database attempt " + Integer.toString(i));
                 System.out.println(sqle.getMessage());
-            }
-            catch (InterruptedException ie)
-            {
+            } catch (InterruptedException ie) {
                 System.out.println("Thread interrupted? Should not happen.");
             }
         }
@@ -53,21 +45,17 @@ public class App
     /**
      * Disconnect from the MySQL database.
      */
-    public void disconnect()
-    {
-        if (con != null)
-        {
-            try
-            {
+    public void disconnect() {
+        if (con != null) {
+            try {
                 // Close connection
                 con.close();
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 System.out.println("Error closing connection to database");
             }
         }
     }
+
     public static void main(String[] args)
     {
         // Create new Application
@@ -75,16 +63,22 @@ public class App
 
         // Connect to database
         a.connect();
-        // Get Employee
-        Employee emp = a.getEmployee(255530);
-        // Display results
-        a.displayEmployee(emp);
+
+        // Extract employee salary information
+        ArrayList<country> countries = a.getCity();
+
+        //Printing Population Countries Ascending
+        a.printPopulation(countries);
 
         // Disconnect from database
         a.disconnect();
     }
 
-    public Employee getEmployee(int ID)
+    /**
+     * Gets all the current employees and salaries.
+     * @return A list of all employees and salaries, or null if there is an error.
+     */
+    public ArrayList<country> getCity()
     {
         try
         {
@@ -92,46 +86,51 @@ public class App
             Statement stmt = con.createStatement();
             // Create string for SQL statement
             String strSelect =
-                    "SELECT emp_no, first_name, last_name "
-                            + "FROM employees "
-                            + "WHERE emp_no = " + ID;
+                    "SELECT country.Code, country.Name, country.Continent, country.Region, country.Population, country.Capital"
+                            + "FROM country "
+                            + "ORDER BY country.Population DESC";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
-            // Return new employee if valid.
-            // Check one is returned
-            if (rset.next())
+            // Extract employee information
+            ArrayList<country> countries = new ArrayList<country>();
+            while (rset.next())
             {
-                Employee emp = new Employee();
-                emp.emp_no = rset.getInt("emp_no");
-                emp.first_name = rset.getString("first_name");
-                emp.last_name = rset.getString("last_name");
-                return emp;
+                country cou = new country();
+                cou.country_code = rset.getString("country.Code");
+                cou.country_name = rset.getString("country.Name");
+                cou.continent = rset.getString("country.Continent");
+                cou.region = rset.getString("country.Region");
+                cou.population = rset.getInt("country.Population");
+                cou.capital = rset.getInt("country.Capital");
+                countries.add(cou);
             }
-            else
-                return null;
+            return countries;
         }
         catch (Exception e)
         {
             System.out.println(e.getMessage());
-            System.out.println("Failed to get employee details");
+            System.out.println("Failed to get population details");
             return null;
         }
     }
 
-    public void displayEmployee(Employee emp)
+    /**
+     * Prints a list of employees.
+     * @param countries The list of employees to print.
+     */
+    public void printPopulation(ArrayList<country> countries)
     {
-        if (emp != null)
+        // Print what the feature is
+        System.out.println("All the countries in the world organised by largest population to smallest.");
+        // Print header
+        System.out.println(String.format("%-30s %-50s %-30s %-30s %-30s %-30s", "Code", "Name", "Continent", "Region", "Population", "Capital"));
+        // Loop over all employees in the list
+        for (country count : countries)
         {
-            System.out.println(
-                    emp.emp_no + " "
-                            + emp.first_name + " "
-                            + emp.last_name + "\n"
-                            + emp.title + "\n"
-                            + "Salary:" + emp.salary + "\n"
-                            + emp.dept_name + "\n"
-                            + "Manager: " + emp.manager + "\n");
+            String count_string =
+                    String.format("%-30s %-50s %-30s %-30s %-30s %-30s",
+                           count.country_code, count.country_name, count.continent, count.region, count.population, count.capital);
+            System.out.println(count_string);
         }
     }
 }
-
-
